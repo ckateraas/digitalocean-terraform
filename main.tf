@@ -15,6 +15,14 @@ module "droplet" {
   name   = var.droplet_name
 }
 
+module "rancheros" {
+  source = "./droplet"
+  image  = var.rancheros
+  region = var.do_ams3
+  size   = var.price_10_dollars
+  name   = "rancheros-test"
+}
+
 module "dns" {
   source     = "./dns"
   domain     = var.domain
