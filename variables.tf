@@ -46,6 +46,11 @@ variable "ubuntu" {
   default     = "ubuntu-18-04-x64"
 }
 
+variable "rancheros" {
+  description = "RancherOS"
+  default     = "rancheros"
+}
+
 # Digital Ocean droplet sizes
 
 variable "price_5_dollars" {
