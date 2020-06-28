@@ -24,7 +24,7 @@ A nifty helper Digital Ocean's API, which can answer those questions for you. Ch
 The image slugs are used when creating the droplet. The droplets slugs I use are stored in `variables.tf`.
 
 ```sh
-curl -X GET -H "Content-Type: application/json" -H "Authorization: Bearer you-api-key" "https://api.digitalocean.com/v2/images"
+curl -X GET -H "Content-Type: application/json" -H "Authorization: Bearer you-api-key" "https://api.digitalocean.com/v2/images?type=distribution"
 | jq '.images[] | .name, .slug'
 | awk '{printf (NR%2==0) ? $0 "\n" : $0}'
 ```
