@@ -19,9 +19,3 @@ variable "subdomains" {
   description = "All subdomains to setup DNS for"
   type        = set(string)
 }
-
-variable "domains" {
-  description = "The domains to setup DNS records for."
-  default     = []
-  type        = set(string)
-}
