@@ -18,3 +18,6 @@ variable "name" {
   description = "Name of the created droplet."
   type        = string
 }
+variable "user_data" {
+  type = string
+}

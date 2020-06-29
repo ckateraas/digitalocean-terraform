@@ -9,4 +9,5 @@ resource "digitalocean_droplet" "server" {
   monitoring         = true
   ipv6               = true
   name               = var.name
+  user_data          = var.user_data
 }
