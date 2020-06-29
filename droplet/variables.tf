@@ -9,12 +9,10 @@ variable "region" {
   type        = string
 }
 variable "image" {
-  default     = "ubuntu-18-04-x64"
   description = "Which image to install on the droplet."
   type        = string
 }
 variable "name" {
-  default     = "my-droplet-with-default-name"
   description = "Name of the created droplet."
   type        = string
 }
