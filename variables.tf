@@ -2,19 +2,12 @@ variable "do_token" {}
 
 variable "domain" {
   type        = string
-  description = "The domain to setup DNS records for to the new droplet"
-  default     = "foojo.no"
+  description = "The root domain to setup DNS records for the droplet"
 }
 
 variable "subdomains" {
   type        = set(string)
   description = "The subdomains to setup DNS records for to the new droplet"
-  default     = ["@", "stats", "ruter", "monitoring", "dns"]
-}
-
-variable "droplet_name" {
-  description = "Name of the new droplet on Digital Ocean"
-  default     = "foojo"
 }
 
 # Digital Ocean regions
