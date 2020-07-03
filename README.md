@@ -1,50 +1,60 @@
 # Terraform
 
 Use [Hashicorp's `terraform`](https://www.terraform.io) to create infrastructure on Digital Ocean.
+This repo creates a droplet running RancherOS, which is behind a Digital Ocean firewall, and DNS records.
+The firewall only allows ICMP, HTTP and HTTPS traffic through.
 
-We're using Docker to make setup easier, so you do not need to clutter your own
-machine with anything - it's all inside a container instead!
+## Getting started
 
-## Digital Ocean API keys
+Add this alias to your shell's config and you're ready to go.
 
-`terraform` needs access to your API keys to create infrastructure in Digital Ocean's cloud.
-The API key can be set using an environment variable, `TF_VAR_do_token`, which must be passed into the container using the `-e` flag.
+```sh
+alias terraform 'docker run --rm -it -w /terraform -v (pwd):/terraform hashicorp/terraform:0.12.26'
+```
 
-If you don't set it, you will be prompted for the API key when you run `terraform apply`.
+You can now run Terraform from within Docker using `terraform`! If you do not want to use Terraform from within Docker, you can
+install it directly on your machine instead.
+
+### Filling in your variables
+
+Create a `terraform.tfvars.json` file based on the example file in this repo.
+
+```sh
+cp terraform.tfvars.json.example terraform.tfvars.json
+```
+
+Open it up in your favorite editor and change the values in the file.
+
+### Using Terraform
+
+Then you need to initialize Terraform. This will pull down all providers and external modules needed by this project.
+
+```sh
+terraform init
+```
+
+Check out what plans Terraform has and apply them afterwards, if they look ok.
+
+```sh
+# Look over Terraform's plan
+terraform plan
+# ...then build the resources
+terraform apply
+```
+
+### Connecting to your new droplet
+
+Once Terraform has finished building your infrastructure, you can access your droplet. Either look for the droplet's IP in Terraform's output
+or access it using the DNS domain you set for the droplet.
 
 ## Digital Ocean metadata
 
-I've yet to find a clear overview of which images and VMs Digital Ocean have available.
-The same goes for finding which ID your SSH keys has internally at Digital Ocean.
+Use `doctl` to access metadata from Digital Ocean. Such as the SSH key ID or SSH-ing into instances.
 
-A nifty helper Digital Ocean's API, which can answer those questions for you. Check out [the API's documentation](https://developers.digitalocean.com/documentation/v2/) if you need more information from the API than what's below.
+This can also be run using Docker with their [`digitalocean/doctl` image](https://hub.docker.com/r/digitalocean/doctl).
 
-### List image names and slugs
-
-The image slugs are used when creating the droplet. The droplets slugs I use are stored in `variables.tf`.
+If you have filled in `terraform.tfvars.json` with your secrets and have `jq` installed, you can use this one-liner for `doctl`:
 
 ```sh
-curl -X GET -H "Content-Type: application/json" -H "Authorization: Bearer you-api-key" "https://api.digitalocean.com/v2/images?type=distribution"
-| jq '.images[] | .name, .slug'
-| awk '{printf (NR%2==0) ? $0 "\n" : $0}'
-```
-
-### List all sizes
-
-The size is used when creating droplets. The droplet size are named by price in `variables.tf`.
-
-```sh
-curl -X GET -H "Content-Type: application/json" -H "Authorization: Bearer you-api-key" "https://api.digitalocean.com/v2/sizes"
-| jq '.sizes[].slug'
-```
-
-### List your SSH keys
-
-The SSH key id is used when creating droplets to allow you to SSH into your newly created droplet.
-
-```sh
-curl -X GET -H "Content-Type: application/json" -H "Authorization: Bearer you-api-key" "https://api.digitalocean.com/v2/account/keys"
-| jq '.ssh_keys[] | .name, .id'
-| awk '{printf (NR%2==0) ? $0 "\n" : $0}'
-
+docker run -it --rm -e=DIGITALOCEAN_ACCESS_TOKEN=(jq --raw-output ".do_token" terraform.tfvars.json)  digitalocean/doctl <command>
 ```
