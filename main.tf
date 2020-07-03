@@ -27,6 +27,7 @@ module "dns" {
 module "firewall" {
   source     = "./firewall"
   droplet_id = module.rancheros.droplet_id
+  ssh_port   = var.ssh_port
 }
 
 output "ip" {

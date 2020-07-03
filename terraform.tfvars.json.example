@@ -2,5 +2,6 @@
   "do_token": "XXX_YYY",
   "user_data": "XXX_YYY",
   "domain": "example.com",
-  "subdomains": ["foo", "bar"]
+  "subdomains": ["foo", "bar"],
+  "ssh_port": "22"
 }

@@ -15,6 +15,11 @@ variable "user_data" {
   description = "The cloud config to pass to RancherOS"
 }
 
+variable "ssh_port" {
+  type        = string
+  description = "Port that OpenSSH listens on"
+}
+
 # Digital Ocean regions
 
 variable "do_ams2" {
