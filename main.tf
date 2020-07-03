@@ -8,11 +8,12 @@ provider "digitalocean" {
 }
 
 module "rancheros" {
-  source = "./droplet"
-  image  = var.rancheros
-  region = var.do_ams3
-  size   = var.price_10_dollars
-  name   = "rancheros-test"
+  source    = "./droplet"
+  image     = var.rancheros
+  region    = var.do_ams3
+  size      = var.price_10_dollars
+  user_data = var.user_data
+  name      = "rancheros-test"
 }
 
 module "dns" {
