@@ -10,6 +10,11 @@ variable "subdomains" {
   description = "The subdomains to setup DNS records for to the new droplet"
 }
 
+variable "user_data" {
+  type        = string
+  description = "The cloud config to pass to RancherOS"
+}
+
 # Digital Ocean regions
 
 variable "do_ams2" {
