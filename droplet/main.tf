@@ -6,7 +6,7 @@ resource "digitalocean_droplet" "server" {
   size               = var.size
   private_networking = true
   backups            = false
-  monitoring         = true
+  monitoring         = false
   ipv6               = true
   name               = var.name
   user_data          = var.user_data
