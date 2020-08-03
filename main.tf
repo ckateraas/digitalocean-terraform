@@ -7,29 +7,29 @@ provider "digitalocean" {
   version = "~> 1.19"
 }
 
-module "rancheros" {
+module "droplet" {
   source    = "./droplet"
-  image     = var.rancheros
+  image     = var.docker-ubuntu
   region    = var.do_ams3
   size      = var.price_10_dollars
   user_data = var.user_data
-  name      = "rancheros-test"
+  name      = "ubuntu-docker"
 }
 
 module "dns" {
   source     = "./dns"
   domain     = var.domain
   subdomains = var.subdomains
-  ipv4       = module.rancheros.public_ipv4
-  ipv6       = module.rancheros.public_ipv6
+  ipv4       = module.droplet.public_ipv4
+  ipv6       = module.droplet.public_ipv6
 }
 
 module "firewall" {
   source     = "./firewall"
-  droplet_id = module.rancheros.droplet_id
+  droplet_id = module.droplet.droplet_id
   ssh_port   = var.ssh_port
 }
 
 output "ip" {
-  value = module.rancheros.public_ipv4
+  value = module.droplet.public_ipv4
 }

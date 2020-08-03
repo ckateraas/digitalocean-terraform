@@ -54,6 +54,11 @@ variable "rancheros" {
   default     = "rancheros"
 }
 
+variable "docker-ubuntu" {
+  description = "Docker on Ubuntu 18.04"
+  default     = "docker-18-04"
+}
+
 # Digital Ocean droplet sizes
 
 variable "price_5_dollars" {
